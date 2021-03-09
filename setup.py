@@ -4,9 +4,9 @@ setup(
     name='highway-env',
     version='1.0.dev0',
     description='An environment for simulated highway driving tasks',
-    url='https://github.com/eleurent/highway-env',
+    url='https://github.com/chrisylb/masterarbeit2',
     author='Edouard Leurent',
-    author_email='eleurent@gmail.com',
+    author_email='yanglieben@gmail.com',
     license='MIT',
     classifiers=[
         'Development Status :: 3 - Alpha',
