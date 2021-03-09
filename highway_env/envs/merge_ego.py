@@ -53,10 +53,10 @@ class MergeEgoEnv(AbstractEnv):
         :param action: the action performed
         :return: the reward of the state-action transition
         """
-        if self.vehicle.speed>10 and self.vehicle.speed<25:
+        if self.vehicle.speed>8 and self.vehicle.speed<15:
             high_speed_reward=0.2
         else:
-            high_speed_reward=0
+            high_speed_reward=-1
 
         reward = self.COLLISION_REWARD * self.vehicle.crashed+self.HIGH_SPEED_REWARD*high_speed_reward
         return utils.lmap( reward,[-10,1],[0, 1])
@@ -125,9 +125,9 @@ class MergeEgoEnv(AbstractEnv):
             pass
         self.vehicle = ego_vehicle
         other_vehicles_type = utils.class_from_path(self.config["other_vehicles_type"])
-        road.vehicles.append(other_vehicles_type(road, road.network.get_lane(("a", "b", 1)).position(100, 0), speed=10+self.np_random.randn()*10 ))
-        road.vehicles.append(other_vehicles_type(road, road.network.get_lane(("a", "b", 1)).position(140, 0), speed=10+self.np_random.randn()*10 ))
-        road.vehicles.append(other_vehicles_type(road, road.network.get_lane(("a", "b", 1)).position(190, 0), speed=10+self.np_random.randn()*10))
+        b=self.np_random.randn()*10 
+        road.vehicles.append(other_vehicles_type(road, road.network.get_lane(("a", "b", 1)).position(70, 0), speed=10+b ))
+        road.vehicles.append(other_vehicles_type(road, road.network.get_lane(("a", "b", 1)).position(100, 0), speed=10+b ))
 
         #merging_v = other_veh
         #road.vehicles.append(merging_v)
