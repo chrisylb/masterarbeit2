@@ -19,8 +19,11 @@ class MergeEgoEnv(AbstractEnv):
     def default_config(cls) -> dict:
         config = super().default_config()
         config.update({
-            "observation": {
-                "type": "Kinematics"
+           "observation": {
+                "type": "Kinematics",
+                "vehicles_count": 4,
+                "absolute": True,
+                "features_range": {"x": [-100, 100], "y": [-100, 100], "vx": [-15, 15], "vy": [-15, 15]}
             },
             "action": {
                 "type": "ContinuousAction",
