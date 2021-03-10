@@ -6,8 +6,8 @@ from highway_env.road.lane import LineType, StraightLane, AbstractLane
 from highway_env.vehicle.objects import Landmark
 
 if TYPE_CHECKING:
-    from highway_env.vehicle import kinematics, objects
-
+ #   from highway_env.vehicle import kinematics, objects
+    from highway_env.vehicle import kinematics, objects,concontroller,dynamics,behavior
 logger = logging.getLogger(__name__)
 
 LaneIndex = Tuple[str, str, int]
