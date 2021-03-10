@@ -20,9 +20,7 @@ class MergeEgoEnv(AbstractEnv):
         config = super().default_config()
         config.update({
             "observation": {
-                "type": "Kinematics",
-                "absolute": True,
-                "features_range": {"x": [-100, 100], "y": [-100, 100], "vx": [-20, 20], "vy": [-20, 20]},
+                "type": "Kinematics"
             },
             "action": {
                 "type": "ContinuousAction",
