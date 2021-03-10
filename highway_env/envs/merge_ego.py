@@ -40,8 +40,8 @@ class MergeEgoEnv(AbstractEnv):
                "render_agent": True,
                "offscreen_rendering": False,
                "duration": 18,
-                "simulation_frequency'': 40,
-                "policy_frequency'': 4
+               "simulation_frequency": 20,
+               "policy_frequency": 2
         })
         return config
     def _reward(self, action: np.ndarray):
