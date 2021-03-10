@@ -32,7 +32,7 @@ class MergeEgoEnv(AbstractEnv):
                 "steering_range": [-np.pi / 2, np.pi / 2],
             },
                "simulation_frequency": 20,  # [Hz]
-               "policy_frequency": 3,  # [Hz]
+               "policy_frequency": 2,  # [Hz]
                "other_vehicles_type": "highway_env.vehicle.behavior.IDMVehicle",
                "screen_width": 600,  # [px]
                "screen_height": 150,  # [px]
