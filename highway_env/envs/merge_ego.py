@@ -39,7 +39,9 @@ class MergeEgoEnv(AbstractEnv):
                "show_trajectories": False,
                "render_agent": True,
                "offscreen_rendering": False,
-               "duration": 18
+               "duration": 18,
+               'simulation_frequency': 40,
+               'policy_frequency': 4
         })
         return config
     def _reward(self, action: np.ndarray):
@@ -51,10 +53,10 @@ class MergeEgoEnv(AbstractEnv):
         :param action: the action performed
         :return: the reward of the state-action transition
         """
-        if self.vehicle.speed>8 and self.vehicle.speed<15:
-            high_speed_reward=0.2
+        if self.vehicle.speed>9 and self.vehicle.speed<15:
+            high_speed_reward=0.5
         else:
-            high_speed_reward=-1
+            high_speed_reward=-2
 
         reward = self.COLLISION_REWARD * self.vehicle.crashed+self.HIGH_SPEED_REWARD*high_speed_reward
         return utils.lmap( reward,[-10,1],[0, 1])
