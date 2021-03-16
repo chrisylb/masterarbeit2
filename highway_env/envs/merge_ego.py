@@ -19,7 +19,7 @@ class MergeEgoEnv(AbstractEnv):
     def default_config(cls) -> dict:
         config = super().default_config()
         config.update({
-           "observation": {
+            "observation": {
                 "type": "Kinematics",
                 "vehicles_count": 4,
                 "absolute": True,
@@ -32,17 +32,11 @@ class MergeEgoEnv(AbstractEnv):
                 "acceleration_range": [-2,2],
                 "steering_range": [-np.pi / 2, np.pi / 2],
             },
-               "other_vehicles_type": "highway_env.vehicle.behavior.IDMVehicle",
-               "screen_width": 600,  # [px]
-               "screen_height": 150,  # [px]
-               "centering_position": [0.3, 0.5],
-               "scaling": 5.5,
-               "show_trajectories": False,
-               "render_agent": True,
-               "offscreen_rendering": False,
                "duration": 18,
-               "simulation_frequency": 20,
-               "policy_frequency": 2
+               'simulation_frequency': 20,
+               'policy_frequency': 4,
+               'other_vehicles_type': 'highway_env.vehicle.kinematics.Vehicle'
+
         })
         return config
     def _reward(self, action: np.ndarray):
@@ -54,13 +48,17 @@ class MergeEgoEnv(AbstractEnv):
         :param action: the action performed
         :return: the reward of the state-action transition
         """
-        if self.vehicle.speed>9 and self.vehicle.speed<15:
-            high_speed_reward=0.5
+        if self.vehicle.speed>7 and self.vehicle.speed<15:
+            high_speed_reward=0.05
         else:
-            high_speed_reward=-2
-
-        reward = self.COLLISION_REWARD * self.vehicle.crashed+self.HIGH_SPEED_REWARD*high_speed_reward
-        return utils.lmap( reward,[-10,1],[0, 1])
+            high_speed_reward=-0.1
+        if self.vehicle.position[0]>240:
+            safe=3
+        else:
+            safe=0
+        reward = self.COLLISION_REWARD * self.vehicle.crashed+self.HIGH_SPEED_REWARD*high_speed_reward+safe
+        return reward
+       # return utils.lmap( reward,[-10,1],[0, 1])
 
         # Altruistic penalty
       #  for vehicle in self.road.vehicles:
@@ -118,7 +116,7 @@ class MergeEgoEnv(AbstractEnv):
         """
         road = self.road
         ego_vehicle = self.action_type.vehicle_class(road,
-                                                    road.network.get_lane(("j", "k", 0)).position(120, 0), speed=10)
+                                                    road.network.get_lane(("j", "k", 0)).position(120, 0), speed=8)
         road.vehicles.append(ego_vehicle)
         try:
             ego_vehicle.plan_route_to("c")
@@ -126,9 +124,10 @@ class MergeEgoEnv(AbstractEnv):
             pass
         self.vehicle = ego_vehicle
         other_vehicles_type = utils.class_from_path(self.config["other_vehicles_type"])
-        b=self.np_random.randn()*10 
-        road.vehicles.append(other_vehicles_type(road, road.network.get_lane(("a", "b", 1)).position(70, 0), speed=10+b ))
-        road.vehicles.append(other_vehicles_type(road, road.network.get_lane(("a", "b", 1)).position(100, 0), speed=10+b ))
+        spead=self.np_random.randn()
+        road.vehicles.append(other_vehicles_type(road, road.network.get_lane(("a", "b", 1)).position(200, 0), speed=8+spead*10 ))
+        road.vehicles.append(other_vehicles_type(road, road.network.get_lane(("a", "b", 1)).position(120, 0), speed=8+spead*10 ))
+        road.vehicles.append(other_vehicles_type(road, road.network.get_lane(("a", "b", 1)).position(160, 0), speed=8+spead*10 ))
 
         #merging_v = other_veh
         #road.vehicles.append(merging_v)
