@@ -132,7 +132,7 @@ class KinematicObservation(ObservationType):
                  features_range: Dict[str, List[float]] = None,
                  absolute: bool = False,
                  order: str = "sorted",
-                 normalize: bool = True,
+                 normalize: bool = False,
                  clip: bool = True,
                  see_behind: bool = False,
                  observe_intentions: bool = False,
